@@ -32,7 +32,45 @@
     </div>
     <!-- END IMAGE -->
 
-
+<main style="background-image: url(images/background.jpg);" class="text-white bg-no-repeat bg-cover">
+        <!-- START SEARCH AND FILTERS -->
+        <div class="p-9 ">
+            <h2 class="pb-12 text-4xl font-semibold">Búsqueda</h2>
+            <form class="flex">
+                <div class="grow-[5] flex">
+                    <i class="fa-solid fa-magnifying-glass pr-3 pt-3 text-2xl"></i>
+                    <input type="text" id="searchInput" class="w-96 border-b-4 border-[#363460] text-3xl bg-transparent hover:border-[#73668e]">
+    
+                </div>
+    
+                <div class="grow flex pt-3 text-[1.2rem]">
+    
+                    <div class="pr-3">
+                        <label for="typeSelect" class="text-[#363460] px-3">Tipo</label>
+                        <select id="typeSelect" class="font-bold bg-transparent">
+                            <option value="Comics" class="text-black">COMICS</option>
+                            <option value="Personajes" class="text-black">PERSONAJES</option>
+                        </select>
+                    </div>
+    
+                    <div class="pr-3">
+                        <label for="typeSelect" class="text-[#363460] px-3">Orden</label>
+                        <select id="typeSelect" class="font-bold bg-transparent">
+                            <option value="A-Z" class="text-black">A-Z</option>
+                            <option value="Z-A" class="text-black">Z-A</option>
+                            <option value="Mas nuevos" class="text-black">Mas nuevos</option>
+                            <option value="Mas viejos" class="text-black">Mas viejos</option>
+                        </select>
+                    </div>
+    
+                    <button class="border-2 border-black p-2 rounded-[30px]">BUSCAR</button>
+    
+                </div>
+            </form>
+        </div>
+        <!-- EDN SEARCH AND FILTERS -->
+    
+</main>
 
     <script src="script.js"></script>
 </body>
