@@ -32,14 +32,15 @@
     </div>
     <!-- END IMAGE -->
 
-<main style="background-image: url(images/background.jpg);" class="text-white bg-no-repeat bg-cover">
+
+    <main style="background-image: url(images/background.jpg);" class="text-white bg-no-repeat bg-cover">
         <!-- START SEARCH AND FILTERS -->
         <div class="p-9 ">
             <h2 class="pb-12 text-4xl font-semibold">Búsqueda</h2>
             <form class="flex">
                 <div class="grow-[5] flex">
                     <i class="fa-solid fa-magnifying-glass pr-3 pt-3 text-2xl"></i>
-                    <input type="text" id="searchInput" class="w-96 border-b-4 border-[#363460] text-3xl bg-transparent hover:border-[#73668e]">
+                    <input type="text" id="searchInput" class="w-96 border-b-4 border-[#363460] text-3xl bg-transparent hover:border-[#73668e] hover:shadow-lg hover:shadow-white cursor-pointer">
     
                 </div>
     
@@ -47,7 +48,7 @@
     
                     <div class="pr-3">
                         <label for="typeSelect" class="text-[#363460] px-3">Tipo</label>
-                        <select id="typeSelect" class="font-bold bg-transparent">
+                        <select id="typeSelect" class="font-bold bg-transparent hover:shadow-lg hover:shadow-white cursor-pointer">
                             <option value="Comics" class="text-black">COMICS</option>
                             <option value="Personajes" class="text-black">PERSONAJES</option>
                         </select>
@@ -55,7 +56,7 @@
     
                     <div class="pr-3">
                         <label for="typeSelect" class="text-[#363460] px-3">Orden</label>
-                        <select id="typeSelect" class="font-bold bg-transparent">
+                        <select id="typeSelect" class="font-bold bg-transparent hover:shadow-lg hover:shadow-white cursor-pointer">
                             <option value="A-Z" class="text-black">A-Z</option>
                             <option value="Z-A" class="text-black">Z-A</option>
                             <option value="Mas nuevos" class="text-black">Mas nuevos</option>
@@ -70,6 +71,33 @@
         </div>
         <!-- EDN SEARCH AND FILTERS -->
     
+        <!-- START COMIC CARDS -->
+<div class="p-16 flex" id="containerCards">
+    <div class="w-80 h-[400px] ml-6 bg-red-800	border-2 border-white rounded-[20px] flex flex-col text-center cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-transparent">
+        <img src="images/descarga.jpg" alt="" class="w-80 h-80 rounded-[20px]">
+        <a class="pt-6 cursor-pointer hover:text-[#73668E]">
+            Fantastic Four by Dan Slott Vol. 1 (Trade Paperback)</a>
+    </div>
+
+    <div class="w-80 h-[400px] ml-6 border-2 border-white rounded-[20px] flex flex-col text-center cursor-pointer hover:shadow-lg hover:shadow-white">
+        <img src="images/descarga.jpg" alt="" class="w-80 h-80 rounded-[20px]">
+        <a class="pt-6 cursor-pointer hover:text-[#73668E]">
+            Fantastic Four by Dan Slott Vol. 1 (Trade Paperback)</a>
+    </div>
+
+    <div class="w-80 h-[400px] ml-6 border-2 border-white rounded-[20px] flex flex-col text-center cursor-pointer hover:shadow-lg hover:shadow-white">
+        <img src="images/descarga.jpg" alt="" class="w-80 h-80 rounded-[20px]">
+        <a class="pt-6 cursor-pointer hover:text-[#73668E]">
+            Fantastic Four by Dan Slott Vol. 1 (Trade Paperback)</a>
+    </div>
+    <div class="w-80 h-[400px] ml-6 border-2 border-white rounded-[20px] flex flex-col text-center cursor-pointer hover:shadow-lg hover:shadow-white">
+        <img src="images/descarga.jpg" alt="" class="w-80 h-80 rounded-[20px]">
+        <a class="pt-6 cursor-pointer hover:text-[#73668E]">
+            Fantastic Four by Dan Slott Vol. 1 (Trade Paperback)</a>
+    </div>
+</div>
+<!-- END COMIC CARDS -->
+
 </main>
 
     <script src="script.js"></script>
