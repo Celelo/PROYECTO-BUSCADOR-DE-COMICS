@@ -6,24 +6,27 @@ const urlBase = `http://gateway.marvel.com/v1/public/`
 let ts = 1
 const publicKey = '54b254b30e4102f6835ccaf9fc8daf8a'
 const hash = '84fbd4beafba7037582101c9400db27a'
-let offset = `&offset=0`
+let offset = 0; // Inicializa el offset en 0
+let currentPageIndex = 0; // Índice de la página actual
 
 // paginated 
-const btnFirstPage = $('.btn-first-page')
-const btnNextPage = $('.btn-next-page')
+const btnInitPage = $('.btn-init-page')
 const btnPrevPage = $('.btn-prev-page')
-const btnLastPage = $('.btn-last-page')
+const btnNextPage = $('.btn-next-page')
+const btnEndPage = $('.btn-end-page')
 
 
 
 
 /////////////////////////////////////////////////////////////-  URL API - ///////////////////////////////////////
+
 const getMarvel = async (resource, search = '') => {
     if (resource !== 'comics' && resource !== 'characters') {
         console.log('Recurso no válido. Debe ser "comics" o "characters".');
     }
+
     try {
-        let url = `${urlBase}${resource}?ts=${ts}&apikey=${publicKey}&hash=${hash}${offset}`;
+        let url = `${urlBase}${resource}?ts=${ts}&apikey=${publicKey}&hash=${hash}&offset=${offset}`;
 
         if (search) {
             if (resource === 'comics') {
@@ -32,11 +35,11 @@ const getMarvel = async (resource, search = '') => {
                 url += `&nameStartsWith=${encodeURIComponent(search)}`;
             }
         }
-        console.log('URL de Marvel:', url);
+
         const response = await fetch(url);
-        console.log('Respuesta de Marvel:', response);
         const data = await response.json();
-        console.log('Marvel Data:', data);
+        totalResultsData = data.data.total;
+
         return data.data.results;
     } catch (error) {
         console.log('error');
@@ -81,7 +84,7 @@ const printComics = async (search, sortOrder) => {
             `;
         }
     } catch (error) {
-        console.log('Error en printComics:', error);
+        console.log('error');
     }
 }
 
@@ -125,7 +128,7 @@ const printCharacters = async (search, sortOrder) => {
             `
         }
     } catch (error) {
-        console.log('error ');
+        console.log('error');
     }
 }
 
@@ -147,11 +150,11 @@ const showCharacters = async () => {
     $('#containerCharacters').style.display = 'flex';
 }
 
-$('#typeSelect').addEventListener('change', async () => {
+$("#typeSelect").addEventListener("change", async () => {
     const selectedOption = typeSelect.value;
-    if (selectedOption === 'Comics') {
+    if (selectedOption === "Comics") {
         await showComics();
-    } else if (selectedOption === 'Personajes') {
+    } else if (selectedOption === "characters") {
         await showCharacters();
     }
 });
@@ -194,3 +197,48 @@ $('#filtersSelect').addEventListener('change', async () => {
 });
 
 showComics()
+
+
+
+////////////////////////////////////////////////////////// - PAGINATED - ////////////////////////////////////////////////
+
+const handlePagination = async () => {
+    const selectedOption = $('#typeSelect').value.toLowerCase();
+    const search = $('#searchInput').value.toLowerCase();
+
+    if (selectedOption === 'comics') {
+        await printComics(search);
+    } else if (selectedOption === 'characters') {
+        await printCharacters(search);
+    }
+}
+
+btnInitPage.addEventListener('click', async () => {
+    currentPageIndex = 0; // Establece el índice de página actual en 0
+    offset = 0; // Reinicia el offset a 0
+    await handlePagination(); // Llama a l
+})
+
+btnPrevPage.addEventListener('click', async () => {
+    if (currentPageIndex > 0) {
+        currentPageIndex--;
+        offset -= 20;
+        await handlePagination();
+    }
+});
+
+btnNextPage.addEventListener('click', async () => {
+    currentPageIndex++;
+    offset += 20;
+    await handlePagination();
+});
+
+btnEndPage.addEventListener('click', async () => {
+    const totalResults = totalResultsData;
+    const totalPages = Math.ceil(totalResults / 20);
+    currentPageIndex = totalPages - 1;
+    offset = currentPageIndex * 20;
+
+    await handlePagination();
+});
+
