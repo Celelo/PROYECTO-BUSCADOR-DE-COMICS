@@ -46,10 +46,10 @@ const getMarvel = async (resource, search = '') => {
 
 //////////////////////////////////////////////////////// - PRINTED - ////////////////////////////////////////////
 
-const printComics = async (search) => {
+const printComics = async (query) => {
     $('#containerCards').innerHTML = '';
     try {
-        const comics = await getMarvel('comics', search)
+        const comics = await getMarvel('comics', query)
         for (let comic of comics) {
             const thumbnail = comic.thumbnail;
             const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
@@ -67,10 +67,10 @@ const printComics = async (search) => {
 
 // printComics()
 
-const printCharacters = async (search) => {
+const printCharacters = async (query) => {
     $('#containerCharacters').innerHTML = ''
     try {
-        const characters = await getMarvel('characters', search) // Pasar el parámetro query
+        const characters = await getMarvel('characters', query) // Pasar el parámetro query
         for (let character of characters) {
             const thumbnail = character.thumbnail;
             const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
@@ -87,3 +87,31 @@ const printCharacters = async (search) => {
     }
 }
 
+
+
+
+
+
+//////////////////////////////////////////////// - SELECT FOR COMICS AND CHARACTERS - ////////////////////////////////////////////
+const showComics = async () => {
+    await printComics();
+    $('#containerCharacters').style.display = 'none';
+    $('#containerCards').style.display = 'flex';
+}
+
+
+const showCharacters = async () => {
+    await printCharacters();
+    $('#containerCards').style.display = 'none';
+    $('#containerCharacters').style.display = 'flex';
+}
+
+$('#typeSelect').addEventListener('change', async () => {
+    const selectedOption = typeSelect.value;
+    if (selectedOption === 'Comics') {
+        await showComics();
+    } else if (selectedOption === 'Personajes') {
+        await showCharacters();
+    }
+});
+showComics()
