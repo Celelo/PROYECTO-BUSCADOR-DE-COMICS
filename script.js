@@ -1,4 +1,4 @@
-// UTILITIES
+////////////////////////////////////////////////////////// - UTILITIES - ///////////////////////////////////////////////////////////
 
 const $ = (selector) => document.querySelector(selector)
 
@@ -17,6 +17,7 @@ const btnLastPage = $('.btn-last-page')
 
 
 
+/////////////////////////////////////////////////////////////-  URL API - ///////////////////////////////////////
 const getMarvel = async (resource, search = '') => {
     if (resource !== 'comics' && resource !== 'characters') {
         console.log('Recurso no válido. Debe ser "comics" o "characters".');
@@ -43,7 +44,8 @@ const getMarvel = async (resource, search = '') => {
 }
 
 
-// printed
+//////////////////////////////////////////////////////// - PRINTED - ////////////////////////////////////////////
+
 const printComics = async (search) => {
     $('#containerCards').innerHTML = '';
     try {
@@ -64,4 +66,24 @@ const printComics = async (search) => {
 }
 
 // printComics()
+
+const printCharacters = async (search) => {
+    $('#containerCharacters').innerHTML = ''
+    try {
+        const characters = await getMarvel('characters', search) // Pasar el parámetro query
+        for (let character of characters) {
+            const thumbnail = character.thumbnail;
+            const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
+            $('#containerCharacters').innerHTML += `
+            <div class="w-72 h-[400px] ml-6 mb-6 border-2 border-white rounded-[20px] flex flex-col text-center cursor-pointer hover:shadow-lg hover:shadow-red-800  hover:bg-white hover:text-[#73668E]">
+            <img src="${imageURL}" alt="${character.name}" class="w-80 h-80 rounded-[20px]">
+            <a class="pt-6 cursor-pointer">
+                ${character.name}</a>
+        </div>
+            `
+        }
+    } catch (error) {
+        console.log('error ');
+    }
+}
 
