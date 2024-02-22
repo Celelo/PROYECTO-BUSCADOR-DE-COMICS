@@ -44,12 +44,13 @@ const getMarvel = async (resource, search = '') => {
 }
 
 
+
 //////////////////////////////////////////////////////// - PRINTED - ////////////////////////////////////////////
 
-const printComics = async (query) => {
+const printComics = async (search) => {
     $('#containerCards').innerHTML = '';
     try {
-        const comics = await getMarvel('comics', query)
+        const comics = await getMarvel('comics', search)
         for (let comic of comics) {
             const thumbnail = comic.thumbnail;
             const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
@@ -67,10 +68,11 @@ const printComics = async (query) => {
 
 // printComics()
 
-const printCharacters = async (query) => {
+const printCharacters = async (search) => {
     $('#containerCharacters').innerHTML = ''
     try {
-        const characters = await getMarvel('characters', query) // Pasar el parámetro query
+        const characters = await getMarvel('characters', search) 
+        console.log(characters);
         for (let character of characters) {
             const thumbnail = character.thumbnail;
             const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
@@ -115,3 +117,16 @@ $('#typeSelect').addEventListener('change', async () => {
     }
 });
 showComics()
+
+
+/////////////////////////////////////////////////////// - SEARCH - ////////////////////////////////////////////////////////////////
+
+$('#searchInput').addEventListener('input', async () => {
+    const selectedOption = $('#typeSelect').value.toLowerCase(); 
+    const search = $('#searchInput').value.toLowerCase();
+    if (selectedOption === 'comics') {
+        await printComics(search);
+    } else if (selectedOption === 'characters') {
+        await printCharacters(search);
+    }
+});
