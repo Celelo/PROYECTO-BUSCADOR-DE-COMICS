@@ -34,7 +34,7 @@ const getMarvel = async (resource, search = '') => {
         }
         console.log('URL de Marvel:', url);
         const response = await fetch(url);
-        console.log('Respuesta de Marvel:', response); 
+        console.log('Respuesta de Marvel:', response);
         const data = await response.json();
         console.log('Marvel Data:', data);
         return data.data.results;
@@ -47,10 +47,29 @@ const getMarvel = async (resource, search = '') => {
 
 //////////////////////////////////////////////////////// - PRINTED - ////////////////////////////////////////////
 
-const printComics = async (search) => {
+const printComics = async (search, sortOrder) => {
     $('#containerCards').innerHTML = '';
     try {
         const comics = await getMarvel('comics', search)
+
+        // Ordenar por A-Z
+        if (sortOrder === 'A-Z') {
+            comics.sort((a, b) => a.title.localeCompare(b.title));
+        }
+        // Ordenar por Z-A
+        else if (sortOrder === 'Z-A') {
+            comics.sort((a, b) => b.title.localeCompare(a.title));
+        }
+        // Ordenar por fecha mas nueva
+        else if (sortOrder === 'Mas nuevos') {
+            comics.sort((a, b) => new Date(b.modified) - new Date(a.modified));
+        }
+        // Ordenar por fecha mas antigua
+        else if (sortOrder === 'Mas viejos') {
+            comics.sort((a, b) => new Date(a.modified) - new Date(b.modified));
+        }
+
+
         for (let comic of comics) {
             const thumbnail = comic.thumbnail;
             const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
@@ -62,17 +81,38 @@ const printComics = async (search) => {
             `;
         }
     } catch (error) {
-        console.log('error');
+        console.log('Error en printComics:', error);
     }
 }
 
 // printComics()
 
-const printCharacters = async (search) => {
+// localeCompare => ordenar un arreglo independientemente de mayúsculas y minúsculas
+
+const printCharacters = async (search, sortOrder) => {
     $('#containerCharacters').innerHTML = ''
     try {
-        const characters = await getMarvel('characters', search) 
-        console.log(characters);
+        characters = await getMarvel('characters', search)
+
+        // Ordenar por A-Z
+        if (sortOrder === 'A-Z') {
+            characters.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        // Ordenar por Z-A
+        else if (sortOrder === 'Z-A') {
+            characters.sort((a, b) => b.name.localeCompare(a.name));
+        }
+        // Ordenar por fecha mas nueva
+        else if (sortOrder === 'Mas nuevos') {
+            characters.sort((a, b) => new Date(b.modified) - new Date(a.modified));
+        }
+        // Ordenar por fecha mas antigua
+        else if (sortOrder === 'Mas viejos') {
+            characters.sort((a, b) => new Date(a.modified) - new Date(b.modified));
+        }
+
+
+        // console.log(characters);
         for (let character of characters) {
             const thumbnail = character.thumbnail;
             const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
@@ -101,7 +141,6 @@ const showComics = async () => {
     $('#containerCards').style.display = 'flex';
 }
 
-
 const showCharacters = async () => {
     await printCharacters();
     $('#containerCards').style.display = 'none';
@@ -116,13 +155,12 @@ $('#typeSelect').addEventListener('change', async () => {
         await showCharacters();
     }
 });
-showComics()
 
 
 /////////////////////////////////////////////////////// - SEARCH - ////////////////////////////////////////////////////////////////
 
 $('#searchInput').addEventListener('input', async () => {
-    const selectedOption = $('#typeSelect').value.toLowerCase(); 
+    const selectedOption = $('#typeSelect').value.toLowerCase();
     const search = $('#searchInput').value.toLowerCase();
     if (selectedOption === 'comics') {
         await printComics(search);
@@ -130,3 +168,29 @@ $('#searchInput').addEventListener('input', async () => {
         await printCharacters(search);
     }
 });
+
+
+
+
+// $('#searchInput').addEventListener('input', async (e) => {
+//     search = e.target.value;
+//     await getMarvel('comics')
+//     });
+
+
+///////////////////////////////////////////////////////////////// - FILTER - /////////////////////////////////////////////////////////
+
+$('#filtersSelect').addEventListener('change', async () => {
+    const selectedOption = $('#filtersSelect').value;
+    const selectedType = $('#typeSelect').value.toLowerCase();
+
+    const search = $('#searchInput').value.toLowerCase();
+
+    if (selectedType === 'comics') {
+        await printComics(search, selectedOption);
+    } else if (selectedType === 'characters') {
+        await printCharacters(search, selectedOption);
+    }
+});
+
+showComics()
