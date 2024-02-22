@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <!-- SCRIPT OF FONT AWESOME -->
     <script src="https://kit.fontawesome.com/d47b1f1b61.js" crossorigin="anonymous"></script>
     <!-- SCRIPT OF TAILWIND CSS -->
@@ -40,53 +39,75 @@
             <form class="flex">
                 <div class="grow-[5] flex">
                     <i class="fa-solid fa-magnifying-glass pr-3 pt-3 text-2xl"></i>
-                    <input type="text" id="searchInput" class="w-96 border-b-4 border-[#363460] text-3xl bg-transparent hover:border-[#73668e] hover:shadow-lg hover:shadow-white cursor-pointer">
-    
+                    <input type="text" id="searchInput"
+                        class="w-96 border-b-4 border-[#363460] text-3xl bg-transparent hover:border-[#73668e] hover:shadow-lg hover:shadow-white cursor-pointer">
+
                 </div>
-    
+
                 <div class="grow flex pt-3 text-[1.2rem]">
-    
+
                     <div class="pr-3">
                         <label for="typeSelect" class="text-[#363460] px-3">Tipo</label>
-                        <select id="typeSelect" class="font-bold bg-transparent hover:shadow-lg hover:shadow-white cursor-pointer">
+                        <select id="typeSelect"
+                            class="font-bold bg-transparent hover:shadow-lg hover:shadow-white cursor-pointer">
                             <option value="Comics" class="text-black">COMICS</option>
                             <option value="Personajes" class="text-black">PERSONAJES</option>
                         </select>
                     </div>
-    
+
                     <div class="pr-3">
-                        <label for="typeSelect" class="text-[#363460] px-3">Orden</label>
-                        <select id="typeSelect" class="font-bold bg-transparent hover:shadow-lg hover:shadow-white cursor-pointer">
+                        <label for="filtersSelect" class="text-[#363460] px-3">Orden</label>
+                        <select id="filtersSelect"
+                            class="font-bold bg-transparent hover:shadow-lg hover:shadow-white cursor-pointer">
                             <option value="A-Z" class="text-black">A-Z</option>
                             <option value="Z-A" class="text-black">Z-A</option>
                             <option value="Mas nuevos" class="text-black">Mas nuevos</option>
                             <option value="Mas viejos" class="text-black">Mas viejos</option>
                         </select>
                     </div>
-    
-                    <button class="border-2 border-black p-2 rounded-[30px]">BUSCAR</button>
-    
+
+                    <button class="border-2 border-black p-2 rounded-[30px]" id="searchBtn">BUSCAR</button>
+
                 </div>
             </form>
         </div>
         <!-- EDN SEARCH AND FILTERS -->
-    
+
         <!-- START COMIC CARDS -->
-        <div class="p-16 flex flex-wrap justify-center" id="containerCards"></div>
+        <div class="p-9 flex flex-wrap justify-center" id="containerCards"></div>
         <!-- END COMIC CARDS -->
 
-<!-- START CHARACTERS CARDS -->
-<div class="p-16 flex" id="containerCharacters">
-    <div class="w-64 h-[400px] ml-6 border-2 border-white rounded-[20px] flex flex-col text-center cursor-pointer hover:shadow-lg hover:shadow-red-800  hover:bg-white hover:text-[#73668E]">
-        <img src="images/descarga.jpg" alt="" class="w-80 h-80 rounded-[20px]">
-        <a class="pt-6 cursor-pointer">
-            Fantastic Four by Dan Slott Vol. 1 (Trade Paperback)</a>
-    </div>
+        <!-- START CHARACTERS CARDS -->
+        <div class="p-16 flex flex-wrap justify-center" id="containerCharacters"></div>
+        <!-- END CHARACTERS CARDS -->
 
-</div>
-<!-- END CHARACTERS CARDS -->
+        <!-- PAGINATION START -->
+        <div class="pages-control p-8 flex items-center justify-center">
 
-</main>
+            <div class="btns-controls w-min flex justify-between">
+
+                <button class="btn-first-page bg-[#73668E] text-white m-3 p-3 rounded-md btn-first" id="init">
+                    <i class="fa-solid fa-angles-left"></i>
+                </button>
+
+                <button class="btn-next-page bg-[#73668E] text-white m-3 p-3 rounded-md btn-backward" id="prev">
+                    <i class="fa-solid fa-angle-left"></i>
+                </button>
+
+                <button class="btn-prev-page bg-[#73668E] text-white m-3 p-3 rounded-md btn-forward" id="next">
+                    <i class="fa-solid fa-angle-right"></i>
+                </button>
+
+                <button class="btn-last-page bg-[#73668E] text-white m-3 p-3 rounded-md btn-last" id="end">
+                    <i class="fa-solid fa-angles-right"></i>
+                </button>
+
+            </div>
+
+        </div>
+        <!-- PAGINATION END -->
+
+    </main>
 
     <script src="script.js"></script>
 </body>

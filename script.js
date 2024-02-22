@@ -6,19 +6,62 @@ const urlBase = `http://gateway.marvel.com/v1/public/`
 let ts = 1
 const publicKey = '54b254b30e4102f6835ccaf9fc8daf8a'
 const hash = '84fbd4beafba7037582101c9400db27a'
+let offset = `&offset=0`
 
-const getMarvel = async (resource) => {
+// paginated 
+const btnFirstPage = $('.btn-first-page')
+const btnNextPage = $('.btn-next-page')
+const btnPrevPage = $('.btn-prev-page')
+const btnLastPage = $('.btn-last-page')
+
+
+
+
+const getMarvel = async (resource, search = '') => {
     if (resource !== 'comics' && resource !== 'characters') {
-        console.log('Recurso no válido. Debe ser "comics" o "characters".')
+        console.log('Recurso no válido. Debe ser "comics" o "characters".');
     }
     try {
-        let url = `${urlBase}${resource}?ts=${ts}&apikey=${publicKey}&hash=${hash}`
-        const response = await fetch(url)
-        const data = await response.json()
-        console.log(data)
-        return data.data.results
+        let url = `${urlBase}${resource}?ts=${ts}&apikey=${publicKey}&hash=${hash}${offset}`;
+
+        if (search) {
+            if (resource === 'comics') {
+                url += `&titleStartsWith=${encodeURIComponent(search)}`;
+            } else if (resource === 'characters') {
+                url += `&nameStartsWith=${encodeURIComponent(search)}`;
+            }
+        }
+        console.log('URL de Marvel:', url);
+        const response = await fetch(url);
+        console.log('Respuesta de Marvel:', response); 
+        const data = await response.json();
+        console.log('Marvel Data:', data);
+        return data.data.results;
     } catch (error) {
-        
-        console.log(error)
+        console.log('error');
     }
 }
+
+
+// printed
+const printComics = async (search) => {
+    $('#containerCards').innerHTML = '';
+    try {
+        const comics = await getMarvel('comics', search)
+        for (let comic of comics) {
+            const thumbnail = comic.thumbnail;
+            const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
+            $('#containerCards').innerHTML += `
+                <div class="comic-card w-72 h-[420px] ml-6 mb-6 bg-red-800	border-2 border-white rounded-[20px] flex flex-col text-center cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-transparent">
+                    <img src="${imageURL}" alt="${comic.title}" class="comic-image w-80 h-80 rounded-[20px]">
+                    <a class="pt-6 cursor-pointer hover:text-[#73668E]">${comic.title}</a>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.log('error');
+    }
+}
+
+// printComics()
+
