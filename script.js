@@ -6,7 +6,7 @@ const urlBase = `http://gateway.marvel.com/v1/public/`
 let ts = 1
 const publicKey = '54b254b30e4102f6835ccaf9fc8daf8a'
 const hash = '84fbd4beafba7037582101c9400db27a'
-let offset = 0; 
+let offset = 0;
 let currentPageIndex = 0;
 
 // paginated 
@@ -102,26 +102,20 @@ const showComicInfo = async (comic) => {
 
     let comicInfoHTML = `
     <button class="btn-back bg-[#73668E]  text-white font-bold py-2 px-4 rounded cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">Volver atrás</button>
-
-        <div class="flex justify-center items-start py-8 px-4">
-        <div class="w-1/2 pr-8">
+    <div class="flex flex-col md:flex-row justify-center items-start py-8 px-4">
+        <div class="w-full md:w-1/2 pr-8 flex justify-center">
             <img src="${imageURL}" alt="${title}" class="w-96 h-96">
         </div>
-        <div class="w-1/2">
+        <div class="w-full md:w-1/2">
             <h2 class="text-2xl font-bold mb-4">${title}</h2>
-            <p class="text-white mb-4">Publicado:</p>
-            <p class="text-white mb-4">${modified ? new Date(modified).toLocaleDateString() : 'No encontrado'}</p>
-            <p class="text-white mb-4">Guionistas:</p>
-            <p class="text-white mb-4">${creators.items.map(creator => creator.name).join(', ')}</p>
-            <p class="text-white mb-4">Descripción:</p> 
-            <p class="text-white mb-4">${description || 'No disponible'}</p> 
-            <p class="text-white mb-4">personajes encontrados:</p> 
-            <p class="text-white mb-4">Se encontro ${characters.available} personajes.</p>
+            <p class="text-white mb-4">Publicado: ${modified ? new Date(modified).toLocaleDateString() : 'No encontrado'}</p>
+            <p class="text-white mb-4">Guionistas: ${creators.items.map(creator => creator.name).join(', ')}</p>
+            <p class="text-white mb-4">Descripción: ${description || 'No disponible'}</p> 
+            <p class="text-white mb-4">Personajes encontrados: Se encontraron ${characters.available} personajes.</p>
         </div>
     </div>
-    
-    <div class="flex  py-8">
-        <div class="grid grid-cols-6 gap-4">`;
+    <div class="flex justify-center py-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">`;
     if (characters.available > 0 && characters.items.length > 0) {
         const charactersToShow = characters.items.slice(0, 20);
 
@@ -129,7 +123,7 @@ const showComicInfo = async (comic) => {
             // const thumbnail = character.thumbnail;
             // const characterImageURL = thumbnail ? `${thumbnail.path}.${thumbnail.extension}` : 'placeholder.jpg';
             comicInfoHTML += `
-            <div class="bg-[#73668E] w-52 h-52 mb-24 mb-20 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white  hover:text-[#73668E]">
+            <div class="bg-[#73668E] w-52 h-52 mb-40  rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white  hover:text-[#73668E]">
                 <img src="${imageURL}" alt="${character.name}" class="w-72 h-72">
                 <h3 class="text-center font-semibold">${character.name}</h3>
             </div>`;
@@ -198,25 +192,23 @@ const showCharacterInfo = async (character) => {
 
     let comicInfoHTML = `
     <button class="btn-back bg-[#73668E]  text-white font-bold py-2 px-4 rounded cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">Volver atrás</button>
-
-        <div class="flex justify-center items-start py-8 px-4">
-        <div class="w-1/2 pr-8">
-            <img src="${imageURL}" alt="${name}" class="w-96 h-96">
+        <div class="flex flex-col md:flex-row justify-center items-start py-8 px-4">
+            <div class="w-full md:w-1/2 pr-8 flex justify-center">
+                <img src="${imageURL}" alt="${name}" class="w-96 h-96">
+            </div>
+            <div class="w-full md:w-1/2">
+                <h2 class="text-2xl font-bold mb-4">${name}</h2>
+                <p class="text-white mb-4">Descripción: ${description || 'No disponible'}</p> 
+                <p class="text-white mb-4">Comics encontrados: Se encontraron ${comics.available} comics.</p>
+            </div>
         </div>
-        <div class="w-1/2">
-            <h2 class="text-2xl font-bold mb-4">${name}</h2>
-            <p class="text-white mb-4">Descripción:</p> 
-            <p class="text-white mb-4">${description || 'No disponible'}</p> 
-        </div>
-    </div>
-    
-    <div class="flex  py-8">
-        <div class="grid grid-cols-6 gap-4">`;
+        <div class="flex justify-center py-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">`;
 
     if (comics.available > 0 && comics.items.length > 0) {
         const comicsToShow = comics.items.slice(0, 20);
 
-        for (let comic of comicsToShow) { 
+        for (let comic of comicsToShow) {
             const thumbnail = character.thumbnail;
             const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
             comicInfoHTML += `
@@ -319,9 +311,9 @@ const handlePagination = async () => {
 }
 
 btnInitPage.addEventListener('click', async () => {
-    currentPageIndex = 0; 
-    offset = 0; 
-    await handlePagination(); 
+    currentPageIndex = 0;
+    offset = 0;
+    await handlePagination();
 })
 
 btnPrevPage.addEventListener('click', async () => {
@@ -346,6 +338,7 @@ btnEndPage.addEventListener('click', async () => {
 
     await handlePagination();
 });
+
 
 
 /////////////////////////////////////////////////////////// - INFO COMICS AND CHARACTERS - //////////////////////////////
