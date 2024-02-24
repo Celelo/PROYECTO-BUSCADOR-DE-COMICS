@@ -22,7 +22,7 @@
 
 *Además, podrás buscar personajes:*
 
-![Búsqueda de personajes](/images/busqueda-personajes.png)
+![busqueda personjaes](/images/busqueda-personaje.png)
 
 
 *Podrás ver su descripción y el nombre de los cómics en los que aparece el personaje:*
