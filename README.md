@@ -2,6 +2,10 @@
 
 **Bienvenida/o a mi aplicación web "Buscador de comics" 🦹‍♂️ ** 
 
-*En esta aplicacion vas a poder hacer busquedas de la editorial de Marvel, tanto de los comics como de los personajes*
+*En esta aplicacion vas a poder hacer busquedas de la editorial de Marvel*
 
 [link de la página](https://develop--bright-sawine-31fb78.netlify.app/) ✨
+
+*Vas a poder hacer busquedas de los comics*
+
+![Pantalla Balance](/images/busqueda-comic.png)
