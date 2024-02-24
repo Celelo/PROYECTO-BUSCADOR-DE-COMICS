@@ -14,110 +14,103 @@
 </head>
 
 <body>
-    <!-- START HEADER -->
-    <header class="w-full h-20 bg-[#363460]">
-        <div class="mx-[550px] py-6 bg-[#73668e]   flex justify-center">
-            <h1 class="text-3xl font-bold  text-white">
-                Marvel Comics
-            </h1>
-        </div>
-    </header>
-    <!-- EDN HEADER -->
-
-    <!-- START IMAGE -->
-    <div>
-        <img class="w-full h-[400px] grayscale-[70%] hover:opacity-90 hover:grayscale-[50%]"
-            src="images/image-marvel.jpg" alt="">
+  <!-- START HEADER -->
+<header class="w-full h-auto md:h-20 bg-[#363460]">
+    <div class="container mx-auto pt-5 flex justify-center">
+        <h1 class="text-3xl font-bold text-white">
+            Marvel Comics
+        </h1>
     </div>
-    <!-- END IMAGE -->
+</header>
+<!-- END HEADER -->
+
+<!-- START IMAGE -->
+<div class="relative">
+    <img class="w-full h-[300px] md:h-[400px] lg:h-[600px] object-cover grayscale-[70%] hover:opacity-90 hover:grayscale-[50%]"
+        src="images/image-marvel.jpg" alt="">
+</div>
+<!-- END IMAGE -->
 
 
-    <main style="background-image: url(images/background.jpg);" class="text-white bg-no-repeat bg-cover">
+    <!-- START MAIN -->
+    <main style="background-image: url(images/background.jpg);"  class="text-white bg-no-repeat bg-cover bg-center">
+        
         <!-- START SEARCH AND FILTERS -->
-        <div class="p-9 ">
-            <h2 class="pb-12 text-4xl font-semibold">Búsqueda</h2>
-            <form class="flex">
-                <div class="grow-[5] flex">
-                    <i class="fa-solid fa-magnifying-glass pr-3 pt-3 text-2xl"></i>
-                    <input type="text" id="searchInput"
-                        class="w-96 border-b-4 border-[#363460] text-3xl bg-transparent hover:border-[#73668e] hover:shadow-lg hover:shadow-white cursor-pointer">
-
-                </div>
-
-                <div class="grow flex pt-3 text-[1.2rem]">
-
-                    <div class="pr-3">
-                        <label for="typeSelect" class="text-[#363460] px-3">Tipo</label>
-                        <select id="typeSelect"
-                            class="font-bold bg-transparent hover:shadow-lg hover:shadow-white cursor-pointer">
-                            <option value="Comics" class="text-black">COMICS</option>
-                            <option value="characters" class="text-black">
-                                PERSONAJES
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="pr-3">
-                        <label for="filtersSelect" class="text-[#363460] px-3">Orden</label>
-                        <select id="filtersSelect"
-                            class="font-bold bg-transparent hover:shadow-lg hover:shadow-white cursor-pointer">
-                            <option value="A-Z" class="text-black">A-Z</option>
-                            <option value="Z-A" class="text-black">Z-A</option>
-                            <option value="Mas nuevos" class="text-black">Mas nuevos</option>
-                            <option value="Mas viejos" class="text-black">Mas viejos</option>
-                        </select>
-                    </div>
-
-                </div>
-            </form>
+<div class="p-4 pb-6 md:p-9">
+    <h2 class="pb-4 md:pb-12 text-2xl md:text-4xl font-semibold">Búsqueda</h2>
+    <form class="flex flex-col md:flex-row md:space-x-4">
+        <div class="flex-grow flex items-center border-b-2 border-[#363460] mb-4 md:mb-0">
+            <i class="fas fa-search pr-3 text-xl md:text-2xl"></i>
+            <input type="text" id="searchInput" class="w-full bg-transparent text-lg md:text-xl focus:outline-none"
+                placeholder="Buscar...">
         </div>
-        <!-- EDN SEARCH AND FILTERS -->
+
+        <div class="flex items-center">
+            <label for="typeSelect" class="text-[#363460] pr-3">Tipo</label>
+            <select id="typeSelect"
+                class="bg-transparent font-bold text-lg text md:text-xl focus:outline-none">
+                <option class="text-black" value="Comics">COMICS</option>
+                <option class="text-black" value="characters">PERSONAJES</option>
+            </select>
+        </div>
+
+        <div class="flex items-center mt-4 md:mt-0">
+            <label for="filtersSelect" class="text-[#363460] pr-3">Orden</label>
+            <select id="filtersSelect"
+                class="bg-transparent font-bold text-lg md:text-xl focus:outline-none">
+                <option class="text-black" value="A-Z">A-Z</option>
+                <option class="text-black" value="Z-A">Z-A</option>
+                <option class="text-black" value="Mas nuevos">Más nuevos</option>
+                <option class="text-black" value="Mas viejos">Más viejos</option>
+            </select>
+        </div>
+    </form>
+</div>
+<!-- END SEARCH AND FILTERS -->
+
 
         <!-- START COMIC CARDS -->
         <div class="p-9 flex flex-wrap justify-center" id="containerCards"></div>
         <!-- END COMIC CARDS -->
 
         <!-- START CHARACTERS CARDS -->
-        <div class="p-16 flex flex-wrap justify-center" id="containerCharacters"></div>
+        <div class="p-9 flex flex-wrap justify-center" id="containerCharacters"></div>
         <!-- END CHARACTERS CARDS -->
-
 
         <!-- INIT INFO COMICS -->
         <div id="infoComics"></div>
-    <!-- END INFO COMICS -->
+        <!-- END INFO COMICS -->
 
-            <!-- INIT INFO CHARACTERS -->
-            <div id="infoCharacters"></div>
+        <!-- INIT INFO CHARACTERS -->
+        <div id="infoCharacters"></div>
         <!-- END INFO CHARACTERS -->
 
-
         <!-- PAGINATION START -->
-        <div class="pages-control p-8 pt-20 flex items-center justify-center">
-
-            <div class="btns-controls w-min flex justify-between">
-
-                <button class="btn-init-page bg-[#73668E] text-white m-3 p-3 rounded-md btn-first" id="init">
-                    <i class="fa-solid fa-angles-left"></i>
+        <div class="p-8 pt-20 flex justify-center items-center">
+            <div class="space-x-4">
+                <button class="btn-init-page bg-[#73668E] text-white py-2 px-4 md:py-3 md:px-6 rounded-md btn-first">
+                    <i class="fas fa-angle-double-left text-base md:text-lg"></i>
                 </button>
 
-                <button class="btn-prev-page bg-[#73668E] text-white m-3 p-3 rounded-md btn-backward" id="prev">
-                    <i class="fa-solid fa-angle-left"></i>
+                <button class="btn-prev-page bg-[#73668E] text-white py-2 px-4 md:py-3 md:px-6 rounded-md btn-backward">
+                    <i class="fas fa-angle-left text-base md:text-lg"></i>
                 </button>
 
-                <button class="btn-next-page bg-[#73668E] text-white m-3 p-3 rounded-md btn-forward" id="next">
-                    <i class="fa-solid fa-angle-right"></i>
+                <button class="btn-next-page bg-[#73668E] text-white py-2 px-4 md:py-3 md:px-6 rounded-md btn-forward">
+                    <i class="fas fa-angle-right text-base md:text-lg"></i>
                 </button>
 
-                <button class="btn-end-page bg-[#73668E] text-white m-3 p-3 rounded-md btn-last" id="end">
-                    <i class="fa-solid fa-angles-right"></i>
+                <button class="btn-end-page bg-[#73668E] text-white py-2 px-4 md:py-3 md:px-6 rounded-md btn-last">
+                    <i class="fas fa-angle-double-right text-base md:text-lg"></i>
                 </button>
-
             </div>
-
         </div>
         <!-- PAGINATION END -->
 
+
     </main>
+    <!-- END MAIN -->
+
 
     <script src="script.js"></script>
 </body>
