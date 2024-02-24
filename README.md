@@ -1,55 +1,56 @@
-# 🔍 PROYECTO-BUSCADOR-DE-COMICS 🔍
+# 🔍 PROYECTO-BUSCADOR-DE-CÓMICS 🔍
 
-**Bienvenida/o a mi aplicación web "Buscador de comics" 🦹‍♂️ ** 
+**¡Bienvenida/o a mi aplicación web "Buscador de cómics" 🦹‍♂️!** 
 
-*En esta aplicacion vas a poder hacer busquedas de la editorial de Marvel*
+*En esta aplicación podrás hacer búsquedas de la editorial de Marvel.*
 
-[link de la página](https://develop--bright-sawine-31fb78.netlify.app/) ✨
-
-
-
-*°Vas a poder hacer busquedas de los comics*
-
-![Pantalla Balance](/images/busqueda-comic.png)
+[Link de la página](https://develop--bright-sawine-31fb78.netlify.app/) ✨
 
 
 
-*°Podras hacer click en un comic y ver su informacion*
+*Podrás hacer búsquedas de los cómics:*
 
-![Pantalla Balance](/images/info-comic.png)
-
-
-
-*°Tambien hacer busqueda de personajes *
-
-![Pantalla Balance](/images/busqueda-personajes.png)
-
-
-*°Y ver su descripcion y nombre de los comics en los que esta el personaje*
-
-![Pantalla Balance](/images/info-personaje.png)
+![Búsqueda de cómic](/images/busqueda-comic.png)
 
 
 
-*°Tambien vas a poder hacer un filtrado. de la A-Z , Z-A y del mas nuevo al mas antiguo*
+*También puedes hacer clic en un cómic y ver su información:*
 
-![Pantalla Balance](/images/filtrado.png)
-
-
+![Información de cómic](/images/info-comic.png)
 
 
-### Desarolladora:
 
-*° Celeste Lopez✨* [LinkedIn](https://www.linkedin.com/in/celeste-l%C3%B3pez-879a03298/)
+*Además, podrás buscar personajes:*
+
+![Búsqueda de personajes](/images/busqueda-personajes.png)
+
+
+*Podrás ver su descripción y el nombre de los cómics en los que aparece el personaje:*
+
+![Información de personaje](/images/info-personaje.png)
+
+
+
+*También podrás hacer un filtrado de la A-Z, Z-A y del más nuevo al más antiguo:*
+
+![Filtrado](/images/filtrado.png)
+
+
+
+
+### Desarrolladora:
+
+*Celeste López✨* [LinkedIn](https://www.linkedin.com/in/celeste-l%C3%B3pez-879a03298/)
 
 
 ### Tecnologías usadas:
-- [x] Html5
-- [x] Css3
+- [x] HTML5
+- [x] CSS3
 - [x] JavaScript
-- [x] Tailwind css
-- [x] Api Marvel
-- [x] Font awesome
+- [x] Tailwind CSS
+- [x] API Marvel
+- [x] Font Awesome
+
 
 
 
