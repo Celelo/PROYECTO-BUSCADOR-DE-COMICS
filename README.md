@@ -33,7 +33,7 @@
 
 *°Tambien vas a poder hacer un filtrado. de la A-Z , Z-A y del mas nuevo al mas antiguo*
 
-![Pantalla Balance](/images/info-personaje.png)
+![Pantalla Balance](/images/filtrado.png)
 
 
 
