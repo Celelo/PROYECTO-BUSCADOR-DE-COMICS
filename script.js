@@ -59,8 +59,7 @@ const getMarvel = async (resource, search = '') => {
 
 
 
-// Función para imprimir los cómics
-async function printComics(search, sortOrder) {
+const printComics = async (search, sortOrder) => {
     const comics = await getMarvel('comics', search);
 
 
@@ -82,7 +81,7 @@ async function printComics(search, sortOrder) {
 
 
 
-    $('#containerCards').innerHTML = ''; // Limpiar la lista de cómics antes de agregar nuevos
+    $('#containerCards').innerHTML = ''; 
     comics.forEach(comic => {
         const thumbnail = comic.thumbnail;
         const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
@@ -100,16 +99,16 @@ async function printComics(search, sortOrder) {
 
 
 
-// Función para mostrar los detalles de un cómic y sus personajes
-async function showComicDetails(comicId) {
+// comic information
+const showComicDetails = async (comicId) => {
     try {
-        // Obtener detalles del cómic
+
         const comic = await getMarvel(`comics/${comicId}`);
         const [comicDetail] = comic;
         const { title, thumbnail, modified, creators, description, characters } = comicDetail;
 
         const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
-        // Mostrar los detalles del cómic en la sección de información del cómic
+
 
         $('#infoComics').innerHTML = `
         <button class="btn-back bg-[#73668E] text-white font-bold py-2 px-4 rounded cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">Volver atrás</button>
@@ -126,28 +125,26 @@ async function showComicDetails(comicId) {
         `;
 
 
-        // Mostrar lista de personajes
+        //related characters
         $('#characterList').innerHTML = ''
         characters.items.forEach(character => {
             $('#characterList').innerHTML += `
-                <div class="mt-9 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]>
+                <div class="mt-9 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">
                     <img src="${imageURL}" alt="${character.name}" class="w-64 h-56">
                     <h3 class="text-center font-semibold mb-2">${character.name}</h3>
-               </div>
+                </div>
             `;
         });
-
+        
 
         // paintCharactersResults(comicId)
 
 
 
-        // Ocultar la sección de cómics y mostrar la sección de información del cómic
         $('#containerCards').style.display = 'none';
         $('#infoComics').style.display = 'flex';
         $('#characterList').style.display = 'grid'
 
-        // Agregamos el evento de clic para el botón de retroceso
         $('.btn-back').addEventListener('click', () => {
             $('#infoComics').style.display = 'none';
             $('#containerCards').style.display = 'flex';
@@ -159,16 +156,19 @@ async function showComicDetails(comicId) {
 }
 
 
-// Agregar un manejador de eventos para los clics en los elementos de la lista de personajes en la sección de información del cómic
 $('#characterList').addEventListener('click', async (e) => {
-    e.target.value
-    console.log('holaaa');
+    const characterName = e.target.value;
+    console.log('hola');
+    if (characterName) {
+        console.log( characterName);
+    }
 });
 
- 
 
 
 
+
+// funscion que muestra a los perosnajes con sus imagenes pero solo en la primera pagina
 
 // const paintCharactersResults = async (comicId) => {
 
@@ -200,8 +200,8 @@ $('#characterList').addEventListener('click', async (e) => {
 
 
 
-// Función para imprimir los personajes
-async function printCharacters(search, sortOrder) {
+
+const printCharacters = async (search, sortOrder) => {
     const characters = await getMarvel('characters', search);
 
 
@@ -217,7 +217,7 @@ async function printCharacters(search, sortOrder) {
 
 
 
-    $('#containerCharacters').innerHTML = '' // Limpiar la lista de personajes antes de agregar nuevos
+    $('#containerCharacters').innerHTML = '' 
     characters.forEach(character => {
         const thumbnail = character.thumbnail;
             const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
@@ -233,7 +233,9 @@ async function printCharacters(search, sortOrder) {
 }
 
 
-async function showCharacterDetails(characterId) {
+
+// character information
+const showCharacterDetails = async (characterId) => {
     const characters = await getMarvel(`characters/${characterId}`);
     const [characterDetail] = characters;
     const { name, thumbnail, description, comics} = characterDetail;
@@ -254,6 +256,7 @@ async function showCharacterDetails(characterId) {
     </div>
     `;
 
+    // related comics
     $('#comicList').innerHTML = '';
     comics.items.forEach(comic => {
         $('#comicList').innerHTML += `
@@ -264,12 +267,11 @@ async function showCharacterDetails(characterId) {
         `;
     });
 
-    // Mostrar la sección de información del personaje y ocultar la sección de personajes
     $('#containerCharacters').style.display = 'none';
     $('#infoCharacters').style.display = 'flex';
     $('#comicList').style.display = 'grid';
 
-    // Agregar el evento de clic para el botón de retroceso
+
     $('.btn-back').addEventListener('click', () => {
         $('#infoCharacters').style.display = 'none';
         $('#containerCharacters').style.display = 'flex';
@@ -278,56 +280,9 @@ async function showCharacterDetails(characterId) {
 }
 
 
-// async function showCharacterDetails(characterId) {
-//     const characters = await getMarvel(`characters/${characterId}`);
-//     const [characterDetail] = characters;
-//     const { name, thumbnail, description, comics} = characterDetail;
-
-//     const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
-
-//     $('#infoCharacters').innerHTML = `
-//     <button class="btn-back bg-[#73668E]  text-white font-bold py-2 px-4 rounded cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">Volver atrás</button>
-//     <div class="flex flex-col md:flex-row justify-center items-start py-8 px-4">
-//         <div class="w-full md:w-1/2 pr-8 flex justify-center">
-//             <img src="${imageURL}" alt="${name}" class="w-96 h-96">
-//         </div>
-//         <div class="w-full md:w-1/2">
-//             <h2 class="text-2xl font-bold mb-4">${name}</h2>
-//             <p class="text-white mb-4">Descripción: ${description || 'No disponible'}</p> 
-//             <p class="text-white mb-4">Comics encontrados: Se encontraron ${comics.available} comics.</p>
-//         </div>
-//     </div>
-//     `;
-
-//     $('#comicList').innerHTML = '';
-// comics.items.forEach(comic => {
-//     $('#comicList').innerHTML += `
-//         <div class="mt-9 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">
-//             <img src="${imageURL}" alt="${comic.name}" class="w-64 h-56">
-//             <h3 class="text-center font-semibold mb-2">${comic.name}</h3>
-//         </div>
-//     `;
-// });
 
 
-
-
-//     // Ocultar la sección de personajes y mostrar la sección de información del personaje
-//     $('#containerCharacters').style.display = 'none';
-//     $('#infoCharacters').style.display = 'flex';
-//     $('#comicList').style.display = 'grid'
-
-//     // Agregamos el evento de clic para el botón de retroceso
-//     $('.btn-back').addEventListener('click', () => {
-//         $('#infoCharacters').style.display = 'none';
-//         $('#containerCharacters').style.display = 'flex';
-//         $('#comicList').style.display = 'none'
-//     });
-// }
-
-
-
-
+// funscion que muestra a los comics con sus imagenes pero solo en la primera pagina
 
 // const paintComicsResults = async (characterId, search) => {
 //     try {
@@ -346,7 +301,7 @@ async function showCharacterDetails(characterId) {
 //             `;
 //         });
 //     } catch (error) {
-//         console.error('Error al obtener y mostrar los cómics:', error);
+//         console.error('eror');
 //     }
 // };
 
@@ -457,7 +412,5 @@ btnEndPage.addEventListener('click', async () => {
 });
 
 
-
-/////////////////////////////////////////////////////////// - INFO COMICS AND CHARACTERS - //////////////////////////////
 
 
