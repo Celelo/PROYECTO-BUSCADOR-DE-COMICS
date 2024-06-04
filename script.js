@@ -50,6 +50,9 @@ const getMarvel = async (resource, search = '') => {
 
 
 
+
+
+
 //////////////////////////////////////////////////////// - PRINTED - ////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////// - INFO COMICS AND CHARACTERS - //////////////////////////////
@@ -58,7 +61,7 @@ const getMarvel = async (resource, search = '') => {
 
 
 
-
+// imprime los comics
 const printComics = async (search, sortOrder) => {
     const comics = await getMarvel('comics', search);
 
@@ -96,59 +99,71 @@ const printComics = async (search, sortOrder) => {
 }
 
 
+// otener imagenes de los personajes (de los comics)
+const getCharactersFromURI = async (uri) => {
+    try {
+        const url = `${uri}?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data.data.results)
+        return data.data.results;
+    } catch (error) {
+        console.error('Error fetching characters:', error);
+    }
+}
+
 
 
 
 // comic information
 const showComicDetails = async (comicId) => {
     try {
-
         const comic = await getMarvel(`comics/${comicId}`);
         const [comicDetail] = comic;
         const { title, thumbnail, modified, creators, description, characters } = comicDetail;
 
         const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
 
-
         $('#infoComics').innerHTML = `
-        <button class="btn-back bg-[#73668E] text-white font-bold py-2 px-4 rounded cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">Volver atrás</button>
-        <div>
-        <img src="${imageURL}" alt="${title}" class="w-96 h-96">
+            <button class="btn-back bg-[#73668E] h-16 ml-20 text-white font-bold py-2 px-4 rounded cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">Volver atrás</button>
+            <div class="mt-20">
+                <img src="${imageURL}" alt="${title}" class="w-96 h-96">
             </div>
-            <div class="w-full md:w-1/2">
-            <h2 class="text-2xl font-bold mb-4">${title}</h2>
-            <p class="text-white mb-4">Publicado: ${modified ? new Date(modified).toLocaleDateString() : 'No encontrado'}</p>
-            <p class="text-white mb-4">Guionistas: ${creators.items.map(creator => creator.name).join(', ')}</p>
-            <p class="text-white mb-4">Descripción: ${description}</p> 
-            <p class="text-white mb-4">Personajes encontrados:  Se encontraron ${characters.available} personajes.</p>
+            <div class="w-full pl-4 mt-20 md:w-1/2">
+                <h2 class="text-2xl font-bold mb-4">${title}</h2>
+                <p class="text-white mb-4">Publicado: ${modified ? new Date(modified).toLocaleDateString() : 'No encontrado'}</p>
+                <p class="text-white mb-4">Guionistas: ${creators.items.map(creator => creator.name).join(', ')}</p>
+                <p class="text-white mb-4">Descripción: ${description}</p>
+                <p class="text-white mb-4">Personajes encontrados: Se encontraron ${characters.available} personajes.</p>
             </div>
         `;
 
 
-        //related characters
-        $('#characterList').innerHTML = ''
-        characters.items.forEach(character => {
+        // imprimir el resultado de personajes
+        const relatedCharacters = await getCharactersFromURI(comicDetail.characters.collectionURI);
+
+        $('#characterList').innerHTML = '';
+        relatedCharacters.forEach(character => {
+            const { name, thumbnail } = character;
+            const characterImageURL = `${thumbnail.path}.${thumbnail.extension}`;
             $('#characterList').innerHTML += `
                 <div class="mt-9 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">
-                    <img src="${imageURL}" alt="${character.name}" class="w-64 h-56">
-                    <h3 class="text-center font-semibold mb-2">${character.name}</h3>
+                    <img src="${characterImageURL}" alt="${name}" class="w-64 h-56">
+                    <h3 class="text-center font-semibold mb-2">${name}</h3>
                 </div>
             `;
         });
-        
-
-        // paintCharactersResults(comicId)
 
 
 
         $('#containerCards').style.display = 'none';
         $('#infoComics').style.display = 'flex';
-        $('#characterList').style.display = 'grid'
+        $('#characterList').style.display = 'grid';
 
         $('.btn-back').addEventListener('click', () => {
             $('#infoComics').style.display = 'none';
             $('#containerCards').style.display = 'flex';
-            $('#characterList').style.display = 'none'
+            $('#characterList').style.display = 'none';
         });
     } catch (error) {
         console.error(error);
@@ -156,51 +171,13 @@ const showComicDetails = async (comicId) => {
 }
 
 
-$('#characterList').addEventListener('click', async (e) => {
-    const characterName = e.target.value;
-    console.log('hola');
-    if (characterName) {
-        console.log( characterName);
-    }
-});
-
-
-
-
-
-// funscion que muestra a los perosnajes con sus imagenes pero solo en la primera pagina
-
-// const paintCharactersResults = async (comicId) => {
-
-
-//     try {
-
-
-//         const characters = await getMarvel(`comics/${comicId}/characters`);
-
-
-//         $('#characterList').innerHTML = '';
-//         characters.forEach(character => {
-//             const imageURL = `${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}`;
-//             $('#characterList').innerHTML += `
-//                 <div class="mt-9 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">
-//                     <img src="${imageURL}" alt="${character.name}" class="w-64 h-56">
-//                     <h3 class="text-center font-semibold mb-2">${character.name}</h3>
-//                 </div>
-//             `;
-//         });
-//     } catch (error) {
-//         console.error('Error al obtener y mostrar los personajes:', error);
-//     }
-// };
 
 
 
 
 
 
-
-
+// imprime los personajes
 const printCharacters = async (search, sortOrder) => {
     const characters = await getMarvel('characters', search);
 
@@ -233,77 +210,100 @@ const printCharacters = async (search, sortOrder) => {
 }
 
 
-
-// character information
-const showCharacterDetails = async (characterId) => {
-    const characters = await getMarvel(`characters/${characterId}`);
-    const [characterDetail] = characters;
-    const { name, thumbnail, description, comics} = characterDetail;
-
-    const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
-
-    $('#infoCharacters').innerHTML = `
-    <button class="btn-back bg-[#73668E]  text-white font-bold py-2 px-4 rounded cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">Volver atrás</button>
-    <div class="flex flex-col md:flex-row justify-center items-start py-8 px-4">
-        <div class="w-full md:w-1/2 pr-8 flex justify-center">
-            <img src="${imageURL}" alt="${name}" class="w-96 h-96">
-        </div>
-        <div class="w-full md:w-1/2">
-            <h2 class="text-2xl font-bold mb-4">${name}</h2>
-            <p class="text-white mb-4">Descripción: ${description || 'No disponible'}</p> 
-            <p class="text-white mb-4">Comics encontrados: Se encontraron ${comics.available} comics.</p>
-        </div>
-    </div>
-    `;
-
-    // related comics
-    $('#comicList').innerHTML = '';
-    comics.items.forEach(comic => {
-        $('#comicList').innerHTML += `
-            <div class="mt-9 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">
-                <img src="${imageURL}" alt="${comic.name}" class="w-64 h-56">
-                <h3 class="text-center font-semibold mb-2">${comic.name}</h3>
-            </div>
-        `;
-    });
-
-    $('#containerCharacters').style.display = 'none';
-    $('#infoCharacters').style.display = 'flex';
-    $('#comicList').style.display = 'grid';
-
-
-    $('.btn-back').addEventListener('click', () => {
-        $('#infoCharacters').style.display = 'none';
-        $('#containerCharacters').style.display = 'flex';
-        $('#comicList').style.display = 'none';
-    });
+const getComicsFromURI = async (uri, offset = 0) => {
+    try {
+        const url = `${uri}?ts=${ts}&apikey=${publicKey}&hash=${hash}&offset=${offset}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.data.results;
+    } catch (error) {
+        console.error('Error fetching comics:', error);
+    }
 }
 
 
 
 
-// funscion que muestra a los comics con sus imagenes pero solo en la primera pagina
 
-// const paintComicsResults = async (characterId, search) => {
-//     try {
+// character information
+let comicsOffset = 0;
+let totalComics = 0;
 
-//         // Obtener los cómics asociados con el personaje con paginación
-//         const comics = await getMarvel(`characters/${characterId}/comics`);
+const showCharacterDetails = async (characterId) => {
+    try {
+        const characters = await getMarvel(`characters/${characterId}`);
+        const [characterDetail] = characters;
+        const { name, thumbnail, description, comics } = characterDetail;
 
-//         $('#comicList').innerHTML = '';
-//         comics.forEach(comic => {
-//             const imageURL = `${comic.thumbnail.path}/portrait_xlarge.${comic.thumbnail.extension}`;
-//             $('#comicList').innerHTML += `
-//                 <div class="mt-9 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">
-//                     <img src="${imageURL}" alt="${comic.title}" class="w-64 h-56">
-//                     <h3 class="text-center font-semibold mb-2">${comic.title}</h3>
-//                 </div>
-//             `;
-//         });
-//     } catch (error) {
-//         console.error('eror');
-//     }
-// };
+        totalComics = comics.available;
+        comicsOffset = 0; // Reset offset for new character
+
+        const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
+
+        $('#infoCharacters').innerHTML = `
+            <button class="btn-back bg-[#73668E] h-16 ml-20 text-white font-bold py-2 px-4 rounded cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">Volver atrás</button>
+            <div class="flex flex-col md:flex-row justify-center items-start py-8 px-4">
+                <div class="w-full md:w-1/2 pr-8 flex justify-center">
+                    <img src="${imageURL}" alt="${name}" class="w-96 h-96">
+                </div>
+                <div class="w-full md:w-1/2">
+                    <h2 class="text-2xl font-bold mb-4">${name}</h2>
+                    <p class="text-white mb-4">Descripción: ${description || 'No disponible'}</p> 
+                    <p class="text-white mb-4">Comics encontrados: Se encontraron ${comics.available} comics.</p>
+                </div>
+            </div>
+        `;
+
+        await loadComics(characterDetail.comics.collectionURI, comicsOffset);
+
+        $('#containerCharacters').style.display = 'none';
+        $('#infoCharacters').style.display = 'flex';
+        $('#comicList').style.display = 'grid';
+
+        $('.btn-back').addEventListener('click', () => {
+            $('#infoCharacters').style.display = 'none';
+            $('#containerCharacters').style.display = 'flex';
+            $('#comicList').style.display = 'none';
+            document.querySelector('.pagination-controls').style.display = 'none';
+        });
+
+        document.querySelector('.btn-prev-page').addEventListener('click', async () => {
+            if (comicsOffset > 0) {
+                comicsOffset -= 20;
+                await loadComics(characterDetail.comics.collectionURI, comicsOffset);
+            }
+        });
+
+        document.querySelector('.btn-next-page').addEventListener('click', async () => {
+            if (comicsOffset + 20 < totalComics) {
+                comicsOffset += 20;
+                await loadComics(characterDetail.comics.collectionURI, comicsOffset);
+            }
+        });
+
+        document.querySelector('.pagination-controls').style.display = 'flex';
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const loadComics = async (uri, offset) => {
+    const relatedComics = await getComicsFromURI(uri, offset);
+
+    $('#comicList').innerHTML = '';
+    relatedComics.forEach(comic => {
+        const { title, thumbnail } = comic;
+        const comicImageURL = `${thumbnail.path}.${thumbnail.extension}`;
+        $('#comicList').innerHTML += `
+            <div class="mt-9 w-64 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">
+                <img src="${comicImageURL}" alt="${title}" class="w-64 h-56">
+                <h3 class="text-center font-semibold mb-2">${title}</h3>
+            </div>
+        `;
+    });
+};
+
+
 
 
 
