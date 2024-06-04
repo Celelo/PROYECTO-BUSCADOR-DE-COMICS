@@ -61,7 +61,7 @@ const getMarvel = async (resource, search = '') => {
 
 
 
-// imprime los comics
+// print the comics
 const printComics = async (search, sortOrder) => {
     const comics = await getMarvel('comics', search);
 
@@ -99,7 +99,7 @@ const printComics = async (search, sortOrder) => {
 }
 
 
-// otener imagenes de los personajes (de los comics)
+// get images of the characters (from the comics)
 const getCharactersFromURI = async (uri) => {
     try {
         const url = `${uri}?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
@@ -139,7 +139,7 @@ const showComicDetails = async (comicId) => {
         `;
 
 
-        // imprimir el resultado de personajes
+        // print the result of characters
         const relatedCharacters = await getCharactersFromURI(comicDetail.characters.collectionURI);
 
         $('#characterList').innerHTML = '';
@@ -177,7 +177,7 @@ const showComicDetails = async (comicId) => {
 
 
 
-// imprime los personajes
+// print the characters
 const printCharacters = async (search, sortOrder) => {
     const characters = await getMarvel('characters', search);
 
@@ -210,6 +210,7 @@ const printCharacters = async (search, sortOrder) => {
 }
 
 
+// get images of the comics (from the characters)
 const getComicsFromURI = async (uri, offset = 0) => {
     try {
         const url = `${uri}?ts=${ts}&apikey=${publicKey}&hash=${hash}&offset=${offset}`;
@@ -236,7 +237,7 @@ const showCharacterDetails = async (characterId) => {
         const { name, thumbnail, description, comics } = characterDetail;
 
         totalComics = comics.available;
-        comicsOffset = 0; // Reset offset for new character
+        comicsOffset = 0;
 
         const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
 
@@ -286,6 +287,7 @@ const showCharacterDetails = async (characterId) => {
         console.error(error);
     }
 };
+
 
 const loadComics = async (uri, offset) => {
     const relatedComics = await getComicsFromURI(uri, offset);
