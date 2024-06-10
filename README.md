@@ -4,7 +4,7 @@
 
 *En esta aplicación podrás hacer búsquedas de la editorial de Marvel.*
 
-[Link de la página](https://develop--bright-sawine-31fb78.netlify.app/) ✨
+[Link de la página]([https://develop--bright-sawine-31fb78.netlify.app/](https://celelo.github.io/PROYECTO-BUSCADOR-DE-COMICS/)) ✨
 
 
 
