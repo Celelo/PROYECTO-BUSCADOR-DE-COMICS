@@ -209,7 +209,6 @@ const printCharacters = async (search, sortOrder) => {
     });
 }
 
-
 // get images of the comics (from the characters)
 const getComicsFromURI = async (uri, offset = 0) => {
     try {
