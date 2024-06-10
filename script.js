@@ -18,8 +18,6 @@ const btnEndPage = $('.btn-end-page')
 const infoComics = $('#infoComics')
 const infoCharacters = $('#infoCharacters')
 
-
-
 /////////////////////////////////////////////////////////////-  URL API - ///////////////////////////////////////
 
 const getMarvel = async (resource, search = '') => {
@@ -48,18 +46,9 @@ const getMarvel = async (resource, search = '') => {
     }
 }
 
-
-
-
-
-
 //////////////////////////////////////////////////////// - PRINTED - ////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////// - INFO COMICS AND CHARACTERS - //////////////////////////////
-
-
-
-
 
 // print the comics
 const printComics = async (search, sortOrder) => {
@@ -82,9 +71,7 @@ const printComics = async (search, sortOrder) => {
         comics.sort((a, b) => new Date(a.modified) - new Date(b.modified));
     }
 
-
-
-    $('#containerCards').innerHTML = ''; 
+    $('#containerCards').innerHTML = '';
     comics.forEach(comic => {
         const thumbnail = comic.thumbnail;
         const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
@@ -98,7 +85,6 @@ const printComics = async (search, sortOrder) => {
     });
 }
 
-
 // get images of the characters (from the comics)
 const getCharactersFromURI = async (uri) => {
     try {
@@ -111,9 +97,6 @@ const getCharactersFromURI = async (uri) => {
         console.error('Error fetching characters:', error);
     }
 }
-
-
-
 
 // comic information
 const showComicDetails = async (comicId) => {
@@ -138,7 +121,6 @@ const showComicDetails = async (comicId) => {
             </div>
         `;
 
-
         // print the result of characters
         const relatedCharacters = await getCharactersFromURI(comicDetail.characters.collectionURI);
 
@@ -154,8 +136,6 @@ const showComicDetails = async (comicId) => {
             `;
         });
 
-
-
         $('#containerCards').style.display = 'none';
         $('#infoComics').style.display = 'flex';
         $('#characterList').style.display = 'grid';
@@ -169,13 +149,6 @@ const showComicDetails = async (comicId) => {
         console.error(error);
     }
 }
-
-
-
-
-
-
-
 
 // print the characters
 const printCharacters = async (search, sortOrder) => {
@@ -192,12 +165,10 @@ const printCharacters = async (search, sortOrder) => {
         characters.sort((a, b) => new Date(a.modified) - new Date(b.modified));
     }
 
-
-
-    $('#containerCharacters').innerHTML = '' 
+    $('#containerCharacters').innerHTML = ''
     characters.forEach(character => {
         const thumbnail = character.thumbnail;
-            const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
+        const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
         $('#containerCharacters').innerHTML += `
         <div onclick="showCharacterDetails(${character.id})" class="w-72 h-[400px] ml-6 mb-6 border-2 border-white rounded-[20px] flex flex-col text-center cursor-pointer hover:shadow-lg hover:shadow-red-800  hover:bg-white hover:text-[#73668E]">
             <img src="${imageURL}" alt="${character.name}" class="w-80 h-80 rounded-[20px]">
@@ -220,10 +191,6 @@ const getComicsFromURI = async (uri, offset = 0) => {
         console.error('Error fetching comics:', error);
     }
 }
-
-
-
-
 
 // character information
 let comicsOffset = 0;
@@ -287,7 +254,6 @@ const showCharacterDetails = async (characterId) => {
     }
 };
 
-
 const loadComics = async (uri, offset) => {
     const relatedComics = await getComicsFromURI(uri, offset);
 
@@ -303,12 +269,6 @@ const loadComics = async (uri, offset) => {
         `;
     });
 };
-
-
-
-
-
-
 
 //////////////////////////////////////////////// - SELECT FOR COMICS AND CHARACTERS - ////////////////////////////////////////////
 const showComics = async () => {
@@ -334,7 +294,6 @@ $("#typeSelect").addEventListener("change", async () => {
     }
 });
 
-
 /////////////////////////////////////////////////////// - SEARCH - //////////////////////////////////////////
 
 $('#searchInput').addEventListener('input', async () => {
@@ -346,8 +305,6 @@ $('#searchInput').addEventListener('input', async () => {
         await printCharacters(search);
     }
 });
-
-
 
 ///////////////////////////////////////////////////////////////// - FILTER - /////////////////////////////////////////////
 
@@ -365,8 +322,6 @@ $('#filtersSelect').addEventListener('change', async () => {
 });
 
 showComics()
-
-
 
 ////////////////////////////////////////////////////////// - PAGINATED - ////////////////////////////////////////////////
 
@@ -411,7 +366,3 @@ btnEndPage.addEventListener('click', async () => {
 
     await handlePagination();
 });
-
-
-
-
