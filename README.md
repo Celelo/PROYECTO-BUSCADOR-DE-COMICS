@@ -25,7 +25,7 @@
 ![busqueda personjaes](/images/busqueda-personaje.png)
 
 
-*Podrás ver su descripción y el nombre de los cómics en los que aparece el personaje:*
+*Podrás ver su descripción, los cómics en los que aparece el personaje y al hacer click en uno de los comics ir al perfil del mismo:*
 
 ![Información de personaje](/images/info-personaje.png)
 
