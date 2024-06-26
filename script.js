@@ -51,23 +51,50 @@ const getMarvel = async (resource, search = '') => {
 /////////////////////////////////////////////////////////// - INFO COMICS AND CHARACTERS - //////////////////////////////
 
 // print the comics
+// const printComics = async (search, sortOrder) => {
+//     const comics = await getMarvel('comics', search);
+
+
+//     if (sortOrder === 'A-Z') {
+//         comics.sort((a, b) => a.title.localeCompare(b.title));
+//     }
+
+//     else if (sortOrder === 'Z-A') {
+//         comics.sort((a, b) => b.title.localeCompare(a.title));
+//     }
+
+//     else if (sortOrder === 'Mas nuevos') {
+//         comics.sort((a, b) => new Date(b.modified) - new Date(a.modified));
+//     }
+
+//     else if (sortOrder === 'Mas viejos') {
+//         comics.sort((a, b) => new Date(a.modified) - new Date(b.modified));
+//     }
+
+//     $('#containerCards').innerHTML = '';
+//     comics.forEach(comic => {
+//         const thumbnail = comic.thumbnail;
+//         const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
+//         $('#containerCards').innerHTML += `
+//     <div onclick="showComicDetails(${comic.id})" class="comic-card w-72 h-[420px] ml-6 mb-6 bg-red-800	border-2 border-white rounded-[20px] flex flex-col text-center cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-transparent">
+//         <img src="${imageURL}" alt="${comic.title}" class="comic-image w-80 h-80 rounded-[20px]">
+//         <a class="pt-6 cursor-pointer hover:text-[#73668E]">${comic.title}</a>
+//     </div>
+// `;
+
+//     });
+// }
+
 const printComics = async (search, sortOrder) => {
     const comics = await getMarvel('comics', search);
 
-
     if (sortOrder === 'A-Z') {
         comics.sort((a, b) => a.title.localeCompare(b.title));
-    }
-
-    else if (sortOrder === 'Z-A') {
+    } else if (sortOrder === 'Z-A') {
         comics.sort((a, b) => b.title.localeCompare(a.title));
-    }
-
-    else if (sortOrder === 'Mas nuevos') {
+    } else if (sortOrder === 'Mas nuevos') {
         comics.sort((a, b) => new Date(b.modified) - new Date(a.modified));
-    }
-
-    else if (sortOrder === 'Mas viejos') {
+    } else if (sortOrder === 'Mas viejos') {
         comics.sort((a, b) => new Date(a.modified) - new Date(b.modified));
     }
 
@@ -76,14 +103,14 @@ const printComics = async (search, sortOrder) => {
         const thumbnail = comic.thumbnail;
         const imageURL = `${thumbnail.path}.${thumbnail.extension}`;
         $('#containerCards').innerHTML += `
-    <div onclick="showComicDetails(${comic.id})" class="comic-card w-72 h-[420px] ml-6 mb-6 bg-red-800	border-2 border-white rounded-[20px] flex flex-col text-center cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-transparent">
-        <img src="${imageURL}" alt="${comic.title}" class="comic-image w-80 h-80 rounded-[20px]">
-        <a class="pt-6 cursor-pointer hover:text-[#73668E]">${comic.title}</a>
-    </div>
-`;
-
+            <div onclick="showComicDetails(${comic.id})" class="comic-card w-72 h-[420px] ml-6 mb-6 bg-red-800	border-2 border-white rounded-[20px] flex flex-col text-center cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-transparent">
+                <img src="${imageURL}" alt="${comic.title}" class="comic-image w-80 h-80 rounded-[20px]">
+                <a class="pt-6 cursor-pointer hover:text-[#73668E]">${comic.title}</a>
+            </div>
+        `;
     });
 }
+
 
 // get images of the characters (from the comics)
 const getCharactersFromURI = async (uri) => {
@@ -91,7 +118,6 @@ const getCharactersFromURI = async (uri) => {
         const url = `${uri}?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data.data.results)
         return data.data.results;
     } catch (error) {
         console.error('Error fetching characters:', error);
@@ -126,10 +152,10 @@ const showComicDetails = async (comicId) => {
 
         $('#characterList').innerHTML = '';
         relatedCharacters.forEach(character => {
-            const { name, thumbnail } = character;
+            const { id, name, thumbnail } = character;
             const characterImageURL = `${thumbnail.path}.${thumbnail.extension}`;
             $('#characterList').innerHTML += `
-                <div class="mt-9 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">
+                <div onclick="showCharacterDetails(${id})" class="mt-9 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">
                     <img src="${characterImageURL}" alt="${name}" class="w-64 h-56">
                     <h3 class="text-center font-semibold mb-2">${name}</h3>
                 </div>
@@ -139,6 +165,8 @@ const showComicDetails = async (comicId) => {
         $('#containerCards').style.display = 'none';
         $('#infoComics').style.display = 'flex';
         $('#characterList').style.display = 'grid';
+        $('#infoCharacters').style.display = 'none'; // Hide infoCharacters container
+        $('#comicList').style.display = 'none';
 
         $('.btn-back').addEventListener('click', () => {
             $('#infoComics').style.display = 'none';
@@ -195,6 +223,7 @@ const getComicsFromURI = async (uri, offset = 0) => {
 // character information
 let comicsOffset = 0;
 let totalComics = 0;
+
 
 const showCharacterDetails = async (characterId) => {
     try {
@@ -259,15 +288,17 @@ const loadComics = async (uri, offset) => {
 
     $('#comicList').innerHTML = '';
     relatedComics.forEach(comic => {
-        const { title, thumbnail } = comic;
+        const { id, title, thumbnail } = comic;
         const comicImageURL = `${thumbnail.path}.${thumbnail.extension}`;
         $('#comicList').innerHTML += `
-            <div class="mt-9 w-64 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">
+            <div onclick="showComicDetails(${id})" class="mt-9 w-64 rounded-lg cursor-pointer hover:shadow-lg hover:shadow-white hover:bg-white hover:text-[#73668E]">
                 <img src="${comicImageURL}" alt="${title}" class="w-64 h-56">
                 <h3 class="text-center font-semibold mb-2">${title}</h3>
             </div>
         `;
     });
+    $('#infoComics').style.display = 'none';
+    $('#characterList').style.display = 'none';
 };
 
 //////////////////////////////////////////////// - SELECT FOR COMICS AND CHARACTERS - ////////////////////////////////////////////
